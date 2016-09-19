@@ -7,7 +7,7 @@ function validate_credit_card(value) {
     //accept only digits dashes or spaces
     if(/[^0-9-\s]+/.test(value)) return false;
 
-    var nCheck = 0 nDigit = 0, bEven = false;
+    var nCheck = 0, nDigit = 0, bEven = false;
     value = value.replace(/\D/g, "");
 
     for (var n = value.length - 1; n >= 0; n--) {
