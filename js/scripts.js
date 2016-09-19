@@ -42,6 +42,16 @@ function validExpirationDate(date) {
     return true;
 }
 
+/**
+ * Validate CVV minimum length
+ * @param  {string} cvv the CVV to be validated
+ * @return {boolean}     Returns true if valid
+ */
+function validCVV(cvv) {
+    //CVV must be at least 3 digits
+    return cvv.length > 2;
+}
+
 $(function() {
     var number        = $('#cc-number'),
         expDate       = $('#cc-expiration-date'),
@@ -121,16 +131,24 @@ $(function() {
             case 'cc-expiration-date':
                 if(validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
                     expDateOk = validExpirationDate(validationValue);
-                }
 
-                if(expDateOk) {
-                    expDate.removeClass("error");
-                    cvv.focus();
-                } else {
-                    expDate.addClass('error');
+                    if(expDateOk) {
+                        expDate.removeClass("error");
+                        cvv.focus();
+                    } else {
+                        expDate.addClass('error');
+                    }
                 }
                 break;
             case 'cc-cvv':
+                cvvOk = validCVV(validationValue);
+
+                if(cvvOk) {
+                    cvv.removeClass("error");
+                    paymentButton.focus();
+                } else {
+                    cvv.addClass('error');
+                }
                 break;
         }
     }
