@@ -104,9 +104,8 @@ $(function() {
     });
 
     paymentForm.submit(function(event) {
-        event.preventDefault();
-
         if(!validateForm()) {
+            event.preventDefault();
             return false;
         }
     });
@@ -151,9 +150,15 @@ $(function() {
                 }
                 break;
         }
+
+        if (validateForm()) {
+            paymentButton.removeClass('disabled');
+        } else {
+            paymentButton.addClass('disabled');
+        }
     }
 
     function validateForm() {
-        return false;
+        return (numberOk && expDateOk && cvvOk);
     }
 });
