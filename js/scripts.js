@@ -3,6 +3,7 @@ $(function() {
         expDate       = $('#cc-expiration-date'),
         cvv           = $('#cc-cvv'),
         paymentButton = $('#submit-payment'),
+        paymentForm   = $('#card-form'),
         ccInputs      = $(".cc-input"),
         timerInterval = 1000,
         timer;
@@ -28,6 +29,34 @@ $(function() {
         clearTimeout(timer);
     });
 
+    //Add active class to spans on field focus
+    ccInputs.focus(function() {
+        $("#title-" + $(this).attr('id')).addClass("active");
+    });
+
+    //Remove active class from spans on blur
+    ccInputs.blur(function() {
+        $("h2 span").removeClass("active");
+    });
+
+    paymentButton.click(function(event){
+        if($(this).hasClass('disabled')) {
+            event.preventDefault();
+            return false;
+        }
+
+        $("#card-form").submit();
+    });
+
+    paymentForm.submit(function(event) {
+        event.preventDefault();
+
+        if(!validateForm()) {
+            return false;
+        }
+    });
+
+    //Run when finish typing
     function finishTyping(id, value) {
         switch(id) {
             case 'cc-number':
@@ -37,5 +66,9 @@ $(function() {
             case 'cc-cvv':
                 break;
         }
+    }
+
+    function validateForm() {
+        return false;
     }
 });
