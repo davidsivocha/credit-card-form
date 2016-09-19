@@ -1,3 +1,47 @@
+/**
+ * Validate Card Numbers
+ * @param  {string} value the card number to be validated
+ * @return {boolean}       Returns true on valid number
+ */
+function validate_credit_card(value) {
+    //accept only digits dashes or spaces
+    if(/[^0-9-\s]+/.test(value)) return false;
+
+    var nCheck = 0 nDigit = 0, bEven = false;
+    value = value.replace(/\D/g, "");
+
+    for (var n = value.length - 1; n >= 0; n--) {
+        var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
+        if (bEven) {
+            if((nDigit *= 2) > 9) nDigit -= 9;
+        }
+
+        nCheck += nDigit;
+        bEven = !bEven;
+    }
+
+    return (nCheck % 10) == 0;
+}
+
+/**
+ * Validate the card date
+ * @param  {string} date The Expiration Date
+ * @return {boolean}      Returns true on valid date
+ */
+function validExpirationDate(date) {
+    var currentDate = new Date(),
+        currentMonth = currentDate.getMonth() + 1,
+        currentYear = currentDate.getFullYear(),
+        expMonth = Number(date.substr(0,2)),
+        expYear = Number(date.substr(3, date.length));
+
+    if ( (expYear < currentYear) || (expYear == currentYear && expMonth <= currentMonth) ) {
+        return false;
+    }
+
+    return true;
+}
+
 $(function() {
     var number        = $('#cc-number'),
         expDate       = $('#cc-expiration-date'),
@@ -66,8 +110,25 @@ $(function() {
                 if(validationValue.length > 0) {
                     numberOk = validate_credit_card(validationValue);
                 }
+
+                if(numberOk) {
+                    number.removeClass("error");
+                    expDate.focus();
+                } else {
+                    number.addClass('error');
+                }
                 break;
             case 'cc-expiration-date':
+                if(validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
+                    expDateOk = validExpirationDate(validationValue);
+                }
+
+                if(expDateOk) {
+                    expDate.removeClass("error");
+                    cvv.focus();
+                } else {
+                    expDate.addClass('error');
+                }
                 break;
             case 'cc-cvv':
                 break;
@@ -76,25 +137,5 @@ $(function() {
 
     function validateForm() {
         return false;
-    }
-
-    function validate_credit_card(value) {
-        //accept only digits dashes or spaces
-        if(/[^0-9-\s]+/.test(value)) return false;
-
-        var nCheck = 0 nDigit = 0, bEven = false;
-        value = value.replace(/\D/g, "");
-
-        for (var n = value.length - 1; n >= 0; n--) {
-            var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
-            if (bEven) {
-                if((nDigit *= 2) > 9) nDigit -= 9;
-            }
-
-            nCheck += nDigit;
-            bEven = !bEven;
-        }
-
-        return (nCheck % 10) == 0;
     }
 });
