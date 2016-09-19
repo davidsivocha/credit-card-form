@@ -64,16 +64,16 @@ $(function() {
         numberOk = false, expDateOk = false, cvvOk = false;
 
     //set the masks
-    number.inputmask("9999 9999 9999 9[999] [999]", {"placeholder": "4242 4242 4242 4242"});
-    expDate.inputmask("mm/yyyy", {"placeholder" : "01/2016"});
-    cvv.inputmask("999[9]", {"placeholder" : "123"});
+    number.inputmask("9999 9999 9999 9[999] [999]", {"placeholder": ""});
+    expDate.inputmask("mm/yyyy", {"placeholder" : ""});
+    cvv.inputmask("999[9]", {"placeholder" : ""});
 
     //focus the first field on page load
     number.focus();
 
     //on keyup set a time after which we trigger the finishTyping() function
     ccInputs.keyup(function(event) {
-        if(e.keyCode != '9' && e.keyCode != '16') {
+        if(event.keyCode != '9' && event.keyCode != '16') {
             clearTimeout(timer);
             timer = setTimeout( finishTyping, timerInterval, $(this).attr('id'), $(this).val());
         }
