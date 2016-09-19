@@ -6,7 +6,8 @@ $(function() {
         paymentForm   = $('#card-form'),
         ccInputs      = $(".cc-input"),
         timerInterval = 1000,
-        timer;
+        timer,
+        numberOk = false, expDateOk = false, cvvOk = false;
 
     //set the masks
     number.inputmask("9999 9999 9999 9[999] [999]", {"placeholder": "4242 4242 4242 4242"});
@@ -58,8 +59,13 @@ $(function() {
 
     //Run when finish typing
     function finishTyping(id, value) {
+        var validationValue = value.replace(/ /g, '');
+
         switch(id) {
             case 'cc-number':
+                if(validationValue.length > 0) {
+                    numberOk = validate_credit_card(validationValue);
+                }
                 break;
             case 'cc-expiration-date':
                 break;
@@ -70,5 +76,25 @@ $(function() {
 
     function validateForm() {
         return false;
+    }
+
+    function validate_credit_card(value) {
+        //accept only digits dashes or spaces
+        if(/[^0-9-\s]+/.test(value)) return false;
+
+        var nCheck = 0 nDigit = 0, bEven = false;
+        value = value.replace(/\D/g, "");
+
+        for (var n = value.length - 1; n >= 0; n--) {
+            var cDigit = value.charAt(n), nDigit = parseInt(cDigit, 10);
+            if (bEven) {
+                if((nDigit *= 2) > 9) nDigit -= 9;
+            }
+
+            nCheck += nDigit;
+            bEven = !bEven;
+        }
+
+        return (nCheck % 10) == 0;
     }
 });
