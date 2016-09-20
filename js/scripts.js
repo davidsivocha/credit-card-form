@@ -64,7 +64,7 @@ function getCardType(ccNumber) {
         amex: /^3[47][0-9]{13}$/
     };
 
-    for (var carPattern in cardPatterns) {
+    for (var cardPattern in cardPatterns) {
         if(cardPatterns[cardPattern].test(ccNumber)) {
             return cardPattern;
         }

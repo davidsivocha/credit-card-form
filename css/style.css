@@ -138,17 +138,17 @@ form label {
 }
 
 .cc-generic #cc-number {
-    background-image: url (../img/cc-generic.svg);
+    background-image: url(../img/cc-generic.svg);
 }
 
 .cc-visa #cc-number {
-    background-image: url (../img/cc-visa.svg);
+    background-image: url(../img/cc-visa.svg);
 }
 .cc-mastercard #cc-number {
-    background-image: url (../img/cc-mastercard.svg);
+    background-image: url(../img/cc-mastercard.svg);
 }
 .cc-amex #cc-number {
-    background-image: url (../img/cc-amex.svg);
+    background-image: url(../img/cc-amex.svg);
 }
 
 #submit-payment {
