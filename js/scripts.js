@@ -1,7 +1,7 @@
-/**
- * Validate Card Numbers
- * @param  {string} value the card number to be validated
- * @return {boolean}       Returns true on valid number
+/*
+ * ----------------------------------
+ * Validate the Card Number
+ * ----------------------------------
  */
 function validate_credit_card(value) {
     //accept only digits dashes or spaces
@@ -23,10 +23,10 @@ function validate_credit_card(value) {
     return (nCheck % 10) == 0;
 }
 
-/**
- * Validate the card date
- * @param  {string} date The Expiration Date
- * @return {boolean}      Returns true on valid date
+/*
+ * ----------------------------------
+ * Validate the Expiry Date
+ * ----------------------------------
  */
 function validExpirationDate(date) {
     var currentDate = new Date(),
@@ -42,14 +42,35 @@ function validExpirationDate(date) {
     return true;
 }
 
-/**
- * Validate CVV minimum length
- * @param  {string} cvv the CVV to be validated
- * @return {boolean}     Returns true if valid
+/*
+ * ----------------------------------
+ * Validate the CVV
+ * ----------------------------------
  */
 function validCVV(cvv) {
     //CVV must be at least 3 digits
     return cvv.length > 2;
+}
+
+/*
+ * ----------------------------------
+ * Get the Card Issuer
+ * ----------------------------------
+ */
+function getCardType(ccNumber) {
+    var cardPatterns = {
+        visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+        mastercard: /^5[1-5][0-9]{14}$/,
+        amex: /^3[47][0-9]{13}$/
+    };
+
+    for (var carPattern in cardPatterns) {
+        if(cardPatterns[cardPattern].test(ccNumber)) {
+            return cardPattern;
+        }
+    }
+
+    return false;
 }
 
 $(function() {
@@ -112,20 +133,26 @@ $(function() {
 
     //Run when finish typing
     function finishTyping(id, value) {
-        var validationValue = value.replace(/ /g, '');
+        var validationValue = value.replace(/ /g, ''),
+            cardType = getCardType(validationValue),
+            cardClass = (cardType != false) ? "cc-" + cardType : "cc-generic";
 
         switch(id) {
             case 'cc-number':
                 if(validationValue.length > 0) {
-                    numberOk = validate_credit_card(validationValue);
+                    numberOk = validate_credit_card(validationValue) && getCardType(validationValue);
                 }
 
                 if(numberOk) {
                     number.removeClass("error");
-                    expDate.focus();
+                    expDate.parent().fadeIn("fast", function() {
+                        expDate.focus();
+                    });
                 } else {
                     number.addClass('error');
                 }
+
+                number.parent().attr('class', cardClass);
                 break;
             case 'cc-expiration-date':
                 if(validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
@@ -133,7 +160,9 @@ $(function() {
 
                     if(expDateOk) {
                         expDate.removeClass("error");
-                        cvv.focus();
+                        cvv.parent().fadeIn("fast", function() {
+                            cvv.focus();
+                        });
                     } else {
                         expDate.addClass('error');
                     }

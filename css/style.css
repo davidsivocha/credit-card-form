@@ -26,6 +26,7 @@ h2 {
 
 h2 span.active {
     color: #3993cd;
+    transition: all .3s ease-in-out;
 }
 
 .card-container {
@@ -36,6 +37,7 @@ h2 span.active {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.30);
 }
 
 .card-container header,
@@ -91,6 +93,7 @@ form label {
     border: none;
     border-bottom: 5px solid #ececec;
     padding-bottom: .5em;
+    transition: all .3s ease-in-out;
 }
 
 .cc-input:focus {
@@ -111,6 +114,10 @@ form label {
 
 #cc-number {
     width:17em;
+    padding-left: 3em;
+    background-color: #fff;
+    background-position: 1px 1px;
+    background-repeat: no-repeat;
 }
 
 #cc-expiration-date-container {
@@ -121,8 +128,27 @@ form label {
     width: 6em;
 }
 
+#cc-expiration-date-container,
+#cc-cvv-container {
+    display: none;
+}
+
 #cc-cvv-container {
     margin-right: 0;
+}
+
+.cc-generic #cc-number {
+    background-image: url (../img/cc-generic.svg);
+}
+
+.cc-visa #cc-number {
+    background-image: url (../img/cc-visa.svg);
+}
+.cc-mastercard #cc-number {
+    background-image: url (../img/cc-mastercard.svg);
+}
+.cc-amex #cc-number {
+    background-image: url (../img/cc-amex.svg);
 }
 
 #submit-payment {
@@ -141,6 +167,7 @@ form label {
     display: inline-block;
     text-decoration: none;
     outline: none;
+    transition: all .3s ease-in-out;
 }
 
 #submit-payment:not(.disabled):hover {
@@ -151,5 +178,3 @@ form label {
     cursor: default;
     opacity: .5;
 }
-
-
