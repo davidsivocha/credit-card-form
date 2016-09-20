@@ -117,8 +117,12 @@ $(function() {
 
     paymentButton.click(function(event){
         if($(this).hasClass('disabled')) {
-            event.preventDefault();
-            return false;
+            if(validateForm()) {
+                $(this).removeClass('disabled');
+            } else {
+                event.preventDefault();
+                return false;
+            }
         }
 
         $("#card-form").submit();
