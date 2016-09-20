@@ -145,9 +145,7 @@ $(function() {
 
                 if(numberOk) {
                     number.removeClass("error");
-                    expDate.parent().fadeIn("fast", function() {
-                        expDate.focus();
-                    });
+                    expDate.focus();
                 } else {
                     number.addClass('error');
                 }
@@ -160,9 +158,7 @@ $(function() {
 
                     if(expDateOk) {
                         expDate.removeClass("error");
-                        cvv.parent().fadeIn("fast", function() {
-                            cvv.focus();
-                        });
+                        cvv.focus();
                     } else {
                         expDate.addClass('error');
                     }
